@@ -12,12 +12,20 @@
 var Maps = new Array();
 
 include("maps/Map0.js");
+include("maps/Map1.js");
+include("maps/Map2.js");
 
 function Map (mapId)
 {
+    this.MapId = mapId;
+    
     this.height = Maps[mapId][0];
     this.width = Maps[mapId][1];
-    this.Tiles = Maps[mapId][2];
+    
+    this.bonus = Maps[mapId][2];
+    this.levelUp = Maps[mapId][3];
+    
+    this.Tiles = Maps[mapId][4];
 }
 
 Map.prototype.Print =

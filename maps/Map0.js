@@ -1,14 +1,12 @@
-/* Map:     0. Map
- * Höhe:    10
- * Breite:  13
- */
-
 Maps[0] = new Array();
 
-Maps[0][0] = 10;
-Maps[0][1] = 13;
+Maps[0][0] = 10; // höhe
+Maps[0][1] = 13; // breite
 
-Maps[0][2] = new Array(
+Maps[0][2] = 2; // bonus tiles
+Maps[0][3] = 10; //snake länge
+
+Maps[0][4] = new Array(
     /* Y=0 */ new Array(0,0,0,0,0,0,0,0,0,0,0,0,0),
     /* Y=1 */ new Array(0,0,0,0,0,0,0,0,0,0,0,0,0),
     /* Y=2 */ new Array(0,0,0,0,0,0,0,0,0,0,0,0,0),

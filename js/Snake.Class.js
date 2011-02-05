@@ -9,7 +9,7 @@
  *  3.0 Deutschland            *
  * * * * * * * * * * * * * * * */
 
-function Snake ()
+function Snake (mapId)
 {
     this.Points = 0;
     this.Direction = "n";
@@ -19,14 +19,19 @@ function Snake ()
     this.Tiles = new Array();
     this.Bonus = new Array();
     this.runTime = 0;
+    
+    this.map = new Map(mapId);
+    
+    for (var i = 0; i < this.map.bonus; i++)
+        this.Bonus[i] = this.newBonus();
 }
 	
 Snake.prototype.Print =
     function()
 	{
-		for(y = 0; y < map.height; y++)
+		for(y = 0; y < this.map.height; y++)
 		{
-			for(x = 0; x < map.width ;x++)
+			for(x = 0; x < this.map.width ;x++)
 			{
 				var htmlObject = document.getElementById("pos-" + y + "-" + x);
 				if(contains(this.Tiles, new Position(y, x)))
@@ -76,9 +81,9 @@ Snake.prototype.Move =
 			this.Moving = false;
 			alert("GameOver");
 			if(confirm("Neues Spiel?"))
-				SetUpGame(true);
+				SetUpGame(true, 0);
 			else
-				document.getElementById("game").innerHTML += "<div id=\"RestartButton\"><button onClick=\"SetUpGame(true)\">Starte Neues Spiel</button></div>";
+				document.getElementById("game").innerHTML += "<div id=\"RestartButton\"><button onClick=\"SetUpGame(true, " + getGetLvl() + ")\">Starte Neues Spiel</button></div>";
 		}
 
 		if(this.Moving)
@@ -105,6 +110,15 @@ Snake.prototype.Move =
 			}
 		}
 		
+        if(this.Tiles.length > this.map.levelUp)
+        {
+            this.Moving = false;
+            if(Maps[this.map.MapId + 1] == null)
+                this.map.MapId = -1;
+            
+            setTimeout("SetUpGame(true,  " + (this.map.MapId + 1) + ")", 3000);
+        }
+        
 		switch(this.Direction)
 		{
 			case "l":
@@ -129,15 +143,15 @@ Snake.prototype.Move =
 		}
 		
 		if (this.Tiles[this.Tiles.length - 1].Y == -1)
-			this.Tiles[this.Tiles.length - 1].Y = map.height - 1;
+			this.Tiles[this.Tiles.length - 1].Y = this.map.height - 1;
 			
-		if (this.Tiles[this.Tiles.length - 1].Y == map.height)
+		if (this.Tiles[this.Tiles.length - 1].Y == this.map.height)
 			this.Tiles[this.Tiles.length - 1].Y = 0;
 			
 		if (this.Tiles[this.Tiles.length - 1].X == -1)
-			this.Tiles[this.Tiles.length - 1].X = map.width - 1;
+			this.Tiles[this.Tiles.length - 1].X = this.map.width - 1;
 			
-		if (this.Tiles[this.Tiles.length - 1].X == map.width)
+		if (this.Tiles[this.Tiles.length - 1].X == this.map.width)
 			this.Tiles[this.Tiles.length - 1].X = 0;
 		
 		this.Print();
@@ -170,9 +184,9 @@ Snake.prototype.newBonus =
 	{
 		do
 		{
-			pos = new Position(parseInt(Math.random() * map.height), parseInt(Math.random() * map.width));
+			pos = new Position(parseInt(Math.random() * this.map.height), parseInt(Math.random() * this.map.width));
 		}
-		while (map.Tiles[pos.Y][pos.X] == 1) // solange blockiertes Feld
+		while (this.map.Tiles[pos.Y][pos.X] == 1) // solange blockiertes Feld
 		
 		return pos;
 	}
@@ -190,13 +204,13 @@ Snake.prototype.CkeckCol =
     function()
 	{
 		//ist der kopf in einer Wand?
-		for(y = 0; y < map.height; y++)
+		for(y = 0; y < this.map.height; y++)
 		{
-			for(x = 0; x < map.width; x++)
+			for(x = 0; x < this.map.width; x++)
 			{
 				if(x == this.Tiles[this.Tiles.length - 1].X &&
 					y == this.Tiles[this.Tiles.length - 1].Y &&
-					map.Tiles[y][x] == 1)
+					this.map.Tiles[y][x] == 1)
 				{
 					return true;
 				}
