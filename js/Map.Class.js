@@ -14,6 +14,7 @@ var Maps = new Array();
 include("maps/Map0.js");
 include("maps/Map1.js");
 include("maps/Map2.js");
+include("maps/Map3.js");
 
 function Map (mapId)
 {
