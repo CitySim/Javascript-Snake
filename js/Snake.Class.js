@@ -11,7 +11,6 @@
 
 function Snake (mapId)
 {
-    this.Points = 0;
     this.Direction = "n";
     this.Moving = false;
     this.grow = false;
@@ -155,7 +154,10 @@ Snake.prototype.Move =
 			this.Tiles[this.Tiles.length - 1].X = 0;
 		
 		this.Print();
-		this.Points += this.Tiles.length;
+        if(isNaN(Points))
+            Points = 0;
+        
+		Points += this.Tiles.length;
 		this.PrintStatus();
 		
 		var now = new Date();
@@ -172,7 +174,7 @@ Snake.prototype.UpdateBonus =
 			if(this.Bonus[i].X == this.Tiles[this.Tiles.length - 1].X &&
 				this.Bonus[i].Y == this.Tiles[this.Tiles.length - 1].Y)
 			{
-				this.Points += this.Tiles.length * 100;
+				Points += this.Tiles.length * 100;
 				this.grow = true;
 				this.Bonus[i] = this.newBonus();
 			}
@@ -195,7 +197,7 @@ Snake.prototype.PrintStatus =
     function()
 	{
 		var htmlObject = document.getElementById("stat");
-		htmlObject.innerHTML = "Punkte: " + this.Points +
+		htmlObject.innerHTML = "Punkte: " + Points +
 			" Länge: " + this.Tiles.length +
 			" Max. Updatezeit: " + runTime + "ms";
 	}

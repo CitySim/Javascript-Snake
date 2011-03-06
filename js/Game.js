@@ -16,6 +16,8 @@ include("js/Map.Class.js");
 var map;
 var snake;
 
+var Points;
+
 document.onkeydown = KeyPress;
 
 function KeyPress (event)
